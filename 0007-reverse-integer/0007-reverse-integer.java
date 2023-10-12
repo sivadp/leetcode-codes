@@ -1,22 +1,17 @@
 class Solution {
     public int reverse(int x) {
-        int result = 0;
+        try {
+            // Convert the absolute value to a StringBuilder and reverse it
+            StringBuilder strBuilder = new StringBuilder(Integer.toString(Math.abs(x))).reverse();
 
-        while (x != 0) {
-            int digit = x % 10;
+            // Parse the reversed string to an integer
+            int result = Integer.parseInt(strBuilder.toString());
 
-            // Check for overflow before updating the result
-            if (result > Integer.MAX_VALUE / 10 || (result == Integer.MAX_VALUE / 10 && digit > 7)) {
-                return 0;  // Overflow
-            }
-            if (result < Integer.MIN_VALUE / 10 || (result == Integer.MIN_VALUE / 10 && digit < -8)) {
-                return 0;  // Overflow
-            }
-
-            result = result * 10 + digit;
-            x /= 10;
+            // Apply the sign to the result
+            return x < 0 ? -result : result;
+        } catch (NumberFormatException e) {
+            // Handle the case where the reversed string exceeds the integer range
+            return 0;
         }
-
-        return result;
     }
 }

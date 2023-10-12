@@ -1,20 +1,22 @@
 class Solution {
     public int reverse(int x) {
-        String str=String.valueOf(x);
-        StringBuilder strbul=new StringBuilder();
-        if(str.charAt(0)=='-'){
-        strbul=new StringBuilder(str.substring(1)).reverse();
-        strbul.insert(0,"-");
+        int result = 0;
+
+        while (x != 0) {
+            int digit = x % 10;
+
+            // Check for overflow before updating the result
+            if (result > Integer.MAX_VALUE / 10 || (result == Integer.MAX_VALUE / 10 && digit > 7)) {
+                return 0;  // Overflow
+            }
+            if (result < Integer.MIN_VALUE / 10 || (result == Integer.MIN_VALUE / 10 && digit < -8)) {
+                return 0;  // Overflow
+            }
+
+            result = result * 10 + digit;
+            x /= 10;
         }
-        else{
-        strbul=new StringBuilder(str).reverse();
-        }
-        try{
-        int revInt=Integer.parseInt(strbul.toString());
-        return revInt;
-        }
-        catch(Exception e){
-            return 0;
-        }
+
+        return result;
     }
 }

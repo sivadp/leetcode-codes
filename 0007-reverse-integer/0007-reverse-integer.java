@@ -1,7 +1,5 @@
 class Solution {
     public int reverse(int x) {
-        int max=Integer.MAX_VALUE;
-        int min=Integer.MIN_VALUE;
         String str=String.valueOf(x);
         StringBuilder strbul=new StringBuilder();
         if(str.charAt(0)=='-'){

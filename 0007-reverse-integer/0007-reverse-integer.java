@@ -1,16 +1,19 @@
 class Solution {
     public int reverse(int x) {
-        try {
-            // Convert the absolute value to a StringBuilder and reverse it
-            StringBuilder strBuilder = new StringBuilder(Integer.toString(Math.abs(x))).reverse();
-
-            // Parse the reversed string to an integer
-            int result = Integer.parseInt(strBuilder.toString());
-
-            // Apply the sign to the result
-            return x < 0 ? -result : result;
-        } catch (NumberFormatException e) {
-            // Handle the case where the reversed string exceeds the integer range
+        String str=String.valueOf(x);
+        StringBuilder strbul=new StringBuilder();
+        if(str.charAt(0)=='-'){
+        strbul=new StringBuilder(str.substring(1)).reverse();
+        strbul.insert(0,"-");
+        }
+        else{
+        strbul=new StringBuilder(str).reverse();
+        }
+        try{
+        int revInt=Integer.parseInt(strbul.toString());
+        return revInt;
+        }
+        catch(Exception e){
             return 0;
         }
     }

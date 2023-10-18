@@ -1,36 +1,28 @@
 class Solution {
     public boolean isValidSudoku(char[][] board) {
-        Set<Integer> rowDigits = new HashSet<>();
-        Set<Integer> colDigits = new HashSet<>();
-        Set<Integer> cubeDigits = new HashSet<>();
-
         for (int i = 0; i < 9; i++) {
-            int temp = 10;
-            for (int j = 0; j < 9; j++) {
+            if (!isValidSub(board, i, 0, i, 8)) return false; // Check rows
+            if (!isValidSub(board, 0, i, 8, i)) return false; // Check columns
+        }
 
-                boolean rowResult = rowDigits.add((board[i][j] != '.') ? Character.getNumericValue(board[i][j]) : temp++);
-                boolean colResult = colDigits.add((board[j][i] != '.') ? Character.getNumericValue(board[j][i]) : temp++);
-
-                if (!rowResult || !colResult) {
-                    return false;
-                }
-                if (i == 0) {
-                    int startRow = 3 * (j / 3);
-                    int startCol = 3 * (j % 3);
-
-                    for (int k = startRow; k < startRow + 3; k++) {
-                        for (int l = startCol; l < startCol + 3; l++) {
-                            boolean cubeResult = cubeDigits.add((board[k][l] != '.') ? Character.getNumericValue(board[k][l]) : temp++);
-                            if (!cubeResult) {
-                                return false;
-                            }
-                        }
-                    }
-                }
-                cubeDigits.clear();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!isValidSub(board, i * 3, j * 3, i * 3 + 2, j * 3 + 2)) return false; // Check 3x3 squares
             }
-            rowDigits.clear();
-            colDigits.clear();
+        }
+
+        return true;
+    }
+
+    private boolean isValidSub(char[][] board, int rowStart, int colStart, int rowEnd, int colEnd) {
+        Set<Character> seen = new HashSet<>();
+        for (int i = rowStart; i <= rowEnd; i++) {
+            for (int j = colStart; j <= colEnd; j++) {
+                char current = board[i][j];
+                if (current != '.' && !seen.add(current)) {
+                    return false; // Duplicate found
+                }
+            }
         }
         return true;
     }

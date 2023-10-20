@@ -1,33 +1,29 @@
-  class Solution {
-        public String countAndSay(int n) {
-
-            StringBuilder sb = new StringBuilder("1");
-
-            for (int i = 2; i <= n; i++) {
-                sb = helper(sb);
-            }
-
-            return sb.toString();
-        }
-
-        private StringBuilder helper(StringBuilder s) {
-
-            StringBuilder sb = new StringBuilder();
-            char currChar = s.charAt(0);
-            int count = 1;
-
-            s.append('#');
-            for (int i = 1; i < s.length(); i++) {
-
-                if (s.charAt(i) != currChar) {
-                    sb = sb.append(count).append(currChar);
-                    currChar = s.charAt(i);
-                    count = 1;
-                } else {
-                    count++;
-                }
-            }
-
-            return sb;
-        }
+class Solution {
+   public String countAndSay(int n) {
+    if (n == 1) {
+        return "1";
     }
+
+    StringBuilder result = new StringBuilder("1");
+
+    for (int i = 2; i <= n; i++) {
+        StringBuilder current = new StringBuilder();
+        int count = 1;
+
+        for (int j = 1; j < result.length(); j++) {
+            if (result.charAt(j) == result.charAt(j - 1)) {
+                count++;
+            } else {
+                current.append(count).append(result.charAt(j - 1));
+                count = 1;
+            }
+        }
+
+        current.append(count).append(result.charAt(result.length() - 1));
+        result = current; // Reusing the same StringBuilder
+    }
+
+    return result.toString();
+}
+
+}

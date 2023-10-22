@@ -18,6 +18,9 @@ class Solution {
                 if(i>start&&candidates[i]==candidates[i-1]){
                     continue;
                 }
+                if (candidates[i] > target) {
+                break;
+                }
                 currentList.add(candidates[i]);
                 sum+=candidates[i];
                 backtrack(candidates,target,currentList,i+1,sum,result);

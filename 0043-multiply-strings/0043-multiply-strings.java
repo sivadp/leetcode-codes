@@ -12,77 +12,39 @@ class Solution {
         mapper.put('8', 8);
         mapper.put('9', 9);
     }
-    public String multiply(String num1, String num2) {
-        if(num1.equals("0")||num2.equals("0")){
+   public String multiply(String num1, String num2) {
+        if (num1.equals("0") || num2.equals("0")) {
             return "0";
         }
-        StringBuilder result=new StringBuilder();
-        int num1len=num1.length();
-        int num2len=num2.length();
-        int extra=0;
-        int minlen=Math.min(num1len,num2len);
-        int maxlen=Math.max(num1len,num2len);
-        StringBuilder multiplyer=new StringBuilder();
-        StringBuilder constmul=new StringBuilder();
-        if(minlen==num1len){
-            multiplyer.append(num1);
-            constmul.append(num2);
+
+        char[] result = new char[num1.length() + num2.length()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = '0';
         }
-        else{
-            multiplyer.append(num2);
-            constmul.append(num1);
-        }
-        for(int i=minlen,count=0;i>0;i--,count++){
-            StringBuilder currentres=multiplyerFunc(constmul,mapper.get(multiplyer.charAt(i-1)));
-            int preCount=count;
-            while(preCount!=0){
-                currentres.insert(currentres.length(),0);
-                preCount--;
+
+        for (int i = num1.length() - 1; i >= 0; i--) {
+            int carry = 0;
+            int digit1 = num1.charAt(i) - '0';
+
+            for (int j = num2.length() - 1; j >= 0; j--) {
+                int digit2 = num2.charAt(j) - '0';
+                int sum = (result[i + j + 1] - '0') + digit1 * digit2 + carry;
+                carry = sum / 10;
+                result[i + j + 1] = (char) (sum % 10 + '0');
             }
-            result=adder(result,currentres);
+
+            result[i] += carry;
         }
-    return result.toString();
-    }       
-    private StringBuilder multiplyerFunc(StringBuilder constmul,int ele1){
-        int extra=0;
-        StringBuilder currentStr=new StringBuilder();
-        for(int i=constmul.length()-1;i>=0;i--){
-            int ele2=mapper.get(constmul.charAt(i));
-            int mul=ele2*ele1+extra;
-            if(mul>9){
-                extra=mul/10;
-                currentStr.insert(0,mul%10);
-            }
-            else{
-                extra=0;
-                currentStr.insert(0,mul);
-            }
-        }
-        if(extra>0){
-            currentStr.insert(0,extra);
-        }
-        return currentStr;
+
+        // Convert char array to String
+        return trimLeadingZeros(new String(result));
     }
-    
-    private StringBuilder adder(StringBuilder num1, StringBuilder num2) {
-         StringBuilder result = new StringBuilder();
-
-        int carry = 0;
-        int i = num1.length() - 1;
-        int j = num2.length() - 1;
-
-        while (i >= 0 || j >= 0 || carry > 0) {
-            int digit1 = (i >= 0) ? (num1.charAt(i) - '0') : 0;
-            int digit2 = (j >= 0) ? (num2.charAt(j) - '0') : 0;
-
-            int sum = digit1 + digit2 + carry;
-            carry = sum / 10;
-            result.insert(0, sum % 10);
-
-            i--;
-            j--;
+    private String trimLeadingZeros(String num) {
+        int nonZeroIndex = 0;
+        while (nonZeroIndex < num.length() && num.charAt(nonZeroIndex) == '0') {
+            nonZeroIndex++;
         }
 
-        return result;
+        return (nonZeroIndex == num.length()) ? "0" : num.substring(nonZeroIndex);
     }
 }

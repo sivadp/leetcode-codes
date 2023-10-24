@@ -19,8 +19,6 @@ class Solution {
                 carry = sum / 10;
                 result[i + j + 1] = (char) (sum % 10 + '0');
             }
-            System.out.println(Arrays.toString(result));
-
             result[i] += carry;
         }
 

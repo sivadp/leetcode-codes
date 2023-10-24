@@ -1,17 +1,4 @@
 class Solution {
-    Map<Character, Integer> mapper = new HashMap<>();
-    {
-        mapper.put('0', 0);
-        mapper.put('1', 1);
-        mapper.put('2', 2);
-        mapper.put('3', 3);
-        mapper.put('4', 4);
-        mapper.put('5', 5);
-        mapper.put('6', 6);
-        mapper.put('7', 7);
-        mapper.put('8', 8);
-        mapper.put('9', 9);
-    }
    public String multiply(String num1, String num2) {
         if (num1.equals("0") || num2.equals("0")) {
             return "0";
@@ -32,6 +19,7 @@ class Solution {
                 carry = sum / 10;
                 result[i + j + 1] = (char) (sum % 10 + '0');
             }
+            System.out.println(Arrays.toString(result));
 
             result[i] += carry;
         }

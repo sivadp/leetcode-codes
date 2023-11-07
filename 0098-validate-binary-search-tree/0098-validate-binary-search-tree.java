@@ -14,22 +14,15 @@
  * }
  */
 class Solution {
-    List<Integer> lister=new ArrayList<>();
     public boolean isValidBST(TreeNode root) {
-       backtrack(root);
-       for(int i=0;i<lister.size()-1;i++){
-           if(lister.get(i)>=lister.get(i+1)){
-               return false;
-           }
-       }
-       return true;
+       
+        return isValidBST(root,Long.MIN_VALUE,Long.MAX_VALUE);
     }
-    public void backtrack(TreeNode root){
-       if(root==null){
-           return;
-       }
-       backtrack(root.left);
-       lister.add(root.val);
-       backtrack(root.right);
+    
+    public boolean isValidBST(TreeNode root,long minval,long maxval){
+        if(root == null) return true;
+        if(root.val >= maxval || root.val <= minval) return false;
+        
+        return isValidBST(root.left,minval,root.val) && isValidBST(root.right,root.val,maxval);
     }
 }

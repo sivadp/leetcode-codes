@@ -1,18 +1,14 @@
 class Solution {
     public int balancedStringSplit(String s) {
-        Stack<Character> stacker=new Stack<>();
         int count=0;
+        int rcnt=0,lcnt=0;
         for(char ch:s.toCharArray()){
-            if(stacker.isEmpty()){
-                stacker.push(ch);
+            if(ch=='R')rcnt++;
+            else lcnt++;
+            if(rcnt==lcnt){
+                count++;
+                rcnt=lcnt=0;
             }
-            else if(ch!=stacker.peek()){
-                stacker.pop();
-            }
-            else{
-                stacker.push(ch);
-            }
-            if(stacker.isEmpty())count++;
         }
         return count;
     }

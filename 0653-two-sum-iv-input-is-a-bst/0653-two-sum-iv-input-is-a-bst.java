@@ -14,23 +14,33 @@
  * }
  */
 class Solution {
-    boolean res=false;
-    Set<Integer> val=new HashSet<>();
     public boolean findTarget(TreeNode root, int k) {
-       backtrack(root,k);
-       return res;
-    }
-    private void backtrack(TreeNode root,int k){
-        if(root==null){
-            return;
-        }
-        backtrack(root.left,k);
-        if(val.contains(k-root.val)){
-            res=true;
-        }
-        else{
-            val.add(root.val);
-        }
-        backtrack(root.right,k);
+       Set<Integer> val=new HashSet<>();
+       TreeNode current=root;
+       while(current!=null){
+           if(current.left==null){
+               if(val.contains(k-current.val))return true;
+               val.add(current.val);
+               current=current.right;
+           }
+           else{
+               TreeNode temp=current.left;
+               while(temp.right!=null&&temp.right!=current){
+                   temp=temp.right;
+               }
+               if(temp.right==current){
+                   temp.right=null;
+                   current=current.right;
+               }
+               else{
+                   if(val.contains(k-current.val))return true;
+                   val.add(current.val);
+                   temp.right=current;
+                   current=current.left;
+               }
+           }
+       }
+       System.out.println(val);
+       return false;
     }
 }
